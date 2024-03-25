@@ -1,0 +1,9 @@
+.home_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.coming{
+    width:50%;
+}
