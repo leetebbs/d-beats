@@ -3,7 +3,7 @@ import Navbar from "./components/Header/Navbar";
 
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
 
-const projectId = process.env.REACT_APP_WALLETCONNECT_ID;
+const projectId = process.env.REACT_APP_WALLETCONNECT_ID; 
 
 const mainnet = {
   chainId: 1,
