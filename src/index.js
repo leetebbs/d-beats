@@ -5,7 +5,9 @@ import App from "./App";
 import Navbar from "./components/Header/Navbar";
 import Home from "./pages/Home/Home";
 import Artist from "./pages/Artist/Artist";
+import Create from "./pages/CreateNft/CreateNft";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CreateNft from "./pages/CreateNft/CreateNft";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/artist",
         element: <Artist />,
+      },
+      {
+        path: "/createNft",
+        element: <CreateNft />,
       },
     ],
   },

@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: 'Permanent Marker', cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 0px 10px;
+}
+
+button:hover{
+  background-color: rgba(0, 0, 0, 0.15);
+  transition: 0.2s;
+}
