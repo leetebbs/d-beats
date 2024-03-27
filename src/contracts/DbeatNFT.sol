@@ -60,3 +60,4 @@ contract MusicNFT is ERC721, Ownable {
         return (music.name, music.artistName, music.musicUrl, music.price, music.isListed);
     }
 }
+ 
