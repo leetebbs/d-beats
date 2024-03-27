@@ -3,6 +3,7 @@ import './CreateNft.css';
 
 const CreateNft = () => {
  const [currentImage, setCurrentImage] = useState();
+ const [name , setName] = useState("")
  const [previewImage, setPreviewImage] = useState("");
  const [musicTracks, setMusicTracks] = useState();
  const [progress, setProgress] = useState(0);
@@ -34,15 +35,16 @@ const CreateNft = () => {
 
  return (
     <div className='createNft_container'>
-      <div className="row">
-        <div className="col-8">
-          <label className="btn btn-default p-0">
+      <h2>Nft Name</h2>
+          <input type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} />
+      <div>
+        <div>
+          <h2>image</h2>
             <input type="file" accept="image/*" onChange={selectImage} />
-          </label>
         </div>
-        <div className="col-4">
+        <div>
           <button
-            className="btn btn-success btn-sm"
+            
             disabled={!currentImage}
             onClick={upload}
           >
@@ -55,15 +57,15 @@ const CreateNft = () => {
           <img className="preview" src={previewImage} alt="" />
         </div>
       )}
-      <div className="row">
-        <div className="col-8">
-          <label className="btn btn-default p-0">
+      <div>
+        <div>
+          <label>
             <input type="file" accept="audio/*" multiple onChange={selectMusicTracks} />
           </label>
         </div>
-        <div className="col-4">
+        <div>
           <button
-            className="btn btn-success btn-sm"
+            
             disabled={!musicTracks || musicTracks.length === 0}
             onClick={upload}
           >
@@ -72,9 +74,9 @@ const CreateNft = () => {
         </div>
       </div>
       {progress > 0 && (
-        <div className="progress my-3">
+        <div>
           <div
-            className="progress-bar progress-bar-info"
+            
             role="progressbar"
             aria-valuenow={progress}
             aria-valuemin={0}
@@ -86,7 +88,7 @@ const CreateNft = () => {
         </div>
       )}
       {message && (
-        <div className="alert alert-secondary mt-3" role="alert">
+        <div>
           {message}
         </div>
       )}
