@@ -27,7 +27,7 @@ contract MusicNFT is ERC721, Ownable {
     }
 
     function mintMusicNFT(string memory _name, string memory _artistName, string memory _musicUrl, uint256 _price) external returns (uint256) {
-        uint256 tokenId = tokenIdCounter++;
+        uint256 tokenId = tokenIdCounter++; 
         _safeMint(msg.sender, tokenId);
         musicNFTs[tokenId] = Music(_name, _artistName, _musicUrl, _price, false);
         emit MusicMinted(tokenId, msg.sender, _name, _artistName, _musicUrl, _price);
@@ -60,4 +60,3 @@ contract MusicNFT is ERC721, Ownable {
         return (music.name, music.artistName, music.musicUrl, music.price, music.isListed);
     }
 }
-  
