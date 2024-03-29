@@ -15,10 +15,14 @@ contract DBeatsMarketplace is ReentrancyGuard, Ownable {
     uint256 public _listingPrice = 0;
     uint256 public _platformPercentage = 10;
     address[] public nftAddresses;
+
     mapping(address => uint256[]) public tokenIds; // Array to keep track of token IDs for each NFT address
 
     mapping(address => mapping(uint256 => Listing)) public s_listings;
     mapping(address => uint256) public s_proceeds;
+
+    // Define a custom error for incorrect price
+    error IncorrectPrice(uint256 expected, uint256 received);
 
     event ItemListed(address indexed nftAddress, uint256 indexed tokenId, uint256 price);
     event ItemCanceled(address indexed nftAddress, uint256 indexed tokenId);
@@ -40,61 +44,35 @@ contract DBeatsMarketplace is ReentrancyGuard, Ownable {
         require(nft.ownerOf(tokenId) == msg.sender, "Not the owner");
         nft.transferFrom(msg.sender, address(this), tokenId); // Transfer NFT to marketplace
         s_listings[nftAddress][tokenId] = Listing(price, msg.sender, false);
-        // Add the tokenId to the tokenIds array for the NFT address
         tokenIds[nftAddress].push(tokenId);
         emit ItemListed(nftAddress, tokenId, price);
     }
 
     function cancelListing(address nftAddress, uint256 tokenId) public {
         require(s_listings[nftAddress][tokenId].seller == msg.sender, "Not the seller");
-        s_listings[nftAddress][tokenId].sold = true;
         IERC721 nft = IERC721(nftAddress);
         nft.transferFrom(address(this), msg.sender, tokenId); // Transfer NFT back to seller
+        s_listings[nftAddress][tokenId].sold = true;
         emit ItemCanceled(nftAddress, tokenId);
     }
 
     function buyItem(address nftAddress, uint256 tokenId) public payable nonReentrant {
+        require(s_listings[nftAddress][tokenId].sold == false, "Item already sold");
         Listing storage listing = s_listings[nftAddress][tokenId];
-        require(listing.price == msg.value, "Incorrect price");
-        require(!listing.sold, "Item already sold");
+        if (listing.price != msg.value) {
+            revert IncorrectPrice(listing.price, msg.value);
+        }
         listing.sold = true;
-        IERC721 nft = IERC721(nftAddress);
-        nft.transferFrom(address(this), msg.sender, tokenId); // Transfer NFT to buyer
-
-        // Calculate the platform fee
+        IERC721(nftAddress).transferFrom(address(this), msg.sender, tokenId);
         uint256 platformFee = msg.value * _platformPercentage / 100;
         uint256 sellerProceeds = msg.value - platformFee;
-
-        // Send the platform fee to the marketplace contract
-        payable(address(this)).transfer(platformFee);
-
-        // Send the remainder to the seller
         payable(listing.seller).transfer(sellerProceeds);
-
         emit ItemBought(nftAddress, tokenId, msg.sender, msg.value);
     }
 
-    function getAllListings() public view returns (Listing[] memory) {
-        uint256 totalListings = 0;
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            address nftAddress = nftAddresses[i];
-            totalListings += tokenIds[nftAddress].length;
-        }
-
-        Listing[] memory listings = new Listing[](totalListings);
-        uint256 index = 0;
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            address nftAddress = nftAddresses[i];
-            for (uint256 j = 0; j < tokenIds[nftAddress].length; j++) {
-                uint256 tokenId = tokenIds[nftAddress][j];
-                if (!s_listings[nftAddress][tokenId].sold) {
-                    listings[index] = s_listings[nftAddress][tokenId];
-                    index++;
-                }
-            }
-        }
-
-        return listings;
+    function getPrice(address nftAddress, uint256 tokenId) public view returns (uint256) {
+        require(s_listings[nftAddress][tokenId].sold == false, "Item already sold");
+        return s_listings[nftAddress][tokenId].price;
     }
 
     function withdrawFunds() public onlyOwner {
