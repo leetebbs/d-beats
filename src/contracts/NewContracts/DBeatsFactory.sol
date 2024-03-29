@@ -25,7 +25,7 @@ contract DBeatsFactory is Ownable, AccessControl {
 
     constructor() Ownable(msg.sender) AccessControl() {
         // Grant the admin role to the contract deployer
-        _grantRole(ADMIN_ROLE, msg.sender);
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
     // Function to add a user to a specific role

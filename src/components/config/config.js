@@ -1,5 +1,5 @@
 export const artistNftAddress = "0x7b9720bbF9dc220fdBD4Ba633a7ae040304B59Cb";
-export const DBeatsFactoryAddress = "0x0DCbf7C51bFE7F9691fD574b1c6D5B36e6Fd6F11";
+export const DBeatsFactoryAddress = "0x51FCeE5CA43fbBad5233AcDf9337B0F871DA9B15";
 export const DBeatsMarketplaceAddress = "0x4690C5d846Abb49d0b6B2a04D4aa3B16e4aFC287";
 export const artistNftAbi = [
 	{
