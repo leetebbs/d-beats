@@ -1,6 +1,7 @@
 export const artistNftAddress = "0x7b9720bbF9dc220fdBD4Ba633a7ae040304B59Cb";
 export const DBeatsFactoryAddress = "0x51FCeE5CA43fbBad5233AcDf9337B0F871DA9B15";
 export const DBeatsMarketplaceAddress = "0x4690C5d846Abb49d0b6B2a04D4aa3B16e4aFC287";
+export const artistNFTURI = "https://nftstorage.link/ipfs/bafybeigasec73g4h2i4tkwdfr3uy4ncd3phd63b55ujcmbp74hqu2vrhne/soundbound.json";
 export const artistNftAbi = [
 	{
 		"anonymous": false,
