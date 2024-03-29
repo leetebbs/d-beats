@@ -7,6 +7,8 @@ import "./DBeatsNFT.sol";
 
 contract DBeatsFactory is Ownable {
     uint256 public tokenCounter;
+    // Mapping to track NFTs created by each address
+    mapping(address => address[]) public nftsByCreator;
 
     event NewNFT(
         address indexed nftAddress,
@@ -46,7 +48,14 @@ contract DBeatsFactory is Ownable {
             name,
             symbol
         );
-        //transfer ownership to the artist
+        // Transfer ownership to the artist
         newNFT.transferOwnership(_artistAddress);
+        // Store the NFT contract address in the mapping
+        nftsByCreator[_artistAddress].push(address(newNFT));
+    }
+
+    // Function to get NFTs created by a specific address
+    function getNFTsByCreator(address creator) public view returns (address[] memory) {
+        return nftsByCreator[creator];
     }
 }
