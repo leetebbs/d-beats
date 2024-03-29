@@ -3,12 +3,15 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./DBeatsNFT.sol";
 
-contract DBeatsFactory is Ownable {
+contract DBeatsFactory is Ownable, AccessControl {
     uint256 public tokenCounter;
-    // Mapping to track NFTs created by each address
     mapping(address => address[]) public nftsByCreator;
+
+    // Define a new role identifier for the admin role
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
     event NewNFT(
         address indexed nftAddress,
@@ -20,7 +23,15 @@ contract DBeatsFactory is Ownable {
         string symbol
     );
 
-    constructor() Ownable(msg.sender) {} // pass msg.sender to the Ownable constructor
+    constructor() Ownable(msg.sender) AccessControl() {
+        // Grant the admin role to the contract deployer
+        _grantRole(ADMIN_ROLE, msg.sender);
+    }
+
+    // Function to add a user to a specific role
+    function addUserToRole(bytes32 role, address account) public onlyOwner {
+        grantRole(role, account);
+    }
 
     function createNFT(
         address _initialOwner,
@@ -29,7 +40,10 @@ contract DBeatsFactory is Ownable {
         uint256 _mintAmount,
         string memory name,
         string memory symbol
-    ) public onlyOwner {
+    ) public {
+        // Check that the caller has the admin role
+        require(hasRole(ADMIN_ROLE, msg.sender), "Caller is not an admin");
+
         tokenCounter++;
         DBeatsNFT newNFT = new DBeatsNFT(
             _initialOwner,
