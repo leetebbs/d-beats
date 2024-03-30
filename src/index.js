@@ -6,6 +6,7 @@ import Navbar from "./components/Header/Navbar";
 import Home from "./pages/Home/Home";
 import Artist from "./pages/Artist/Artist";
 import Create from "./pages/CreateNft/CreateNft";
+import Admin from "./pages/Admin/Admin";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateNft from "./pages/CreateNft/CreateNft";
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/createNft",
         element: <CreateNft />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
       },
     ],
   },

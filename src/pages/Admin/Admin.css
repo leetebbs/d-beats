@@ -1,0 +1,11 @@
+.admin_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap:20px;
+}
+
+.admin_input{
+    width: 300px;
+}
