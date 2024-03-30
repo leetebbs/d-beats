@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 
 const Admin = () => {
     const { address, chainId, isConnected } = useWeb3ModalAccount();
-    const adminAddresses = ["0x1ABc133C222a185fEde2664388F08ca12C208F76","0xdb035c42e12ee11f1D47797954C25EE36C3dC77c"]; //ADMIN_ADDRESSES
+    const adminAddresses = ["0x1ABc133C222a185fEde2664388F08ca12C208F76","0xdb035c42e12ee11f1D47797954C25EE36C3dC77c","0x1c629d919eaf6c9671cfa388a616f645aba06586"]; //ADMIN_ADDRESSES
     const [isAdmin, setIsAdmin] = useState(false);
     const role = "0xa49807205ce4d355092ef5a8a18f56e8913cf4a201fbe287825b095693c21775";//ADMIN_ROLE
     const [verifyAddress, setVerifyAddress] = useState("");//set verified address
